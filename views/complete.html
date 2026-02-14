@@ -1,19 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Success | Opinion Insights</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opinion Insights | Success</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f4f7f6; }
-        .card { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: inline-block; }
-        h1 { color: #28a745; }
-        a { color: black !important; text-decoration: none !important; font-weight: bold; } /* [cite: 2026-02-07] */
+        body, html {
+            background-image: url('https://dashboard.mackinsights.com/public/background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            font-family: "Quicksand", sans-serif;
+            overflow-x: hidden;
+        }
+
+        .brand-name-bada {
+            font-family: "Comfortaa", sans-serif;
+            font-size: 65px;
+            font-weight: bold;
+            margin-top: 50px;
+            color: #000;
+            opacity: 0; /* Animation start point */
+        }
+
+        .woohoo-text {
+            font-family: "Comfortaa", sans-serif;
+            font-size: 30px;
+            color: #0092dc;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .completion-box {
+            margin-top: 20px;
+            padding: 20px;
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        .completion-title {
+            font-family: "Comfortaa", sans-serif;
+            font-size: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #000;
+        }
+
+        /* Table Highlight [cite: 2026-02-04] */
+        .table-responsive {
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .table thead tr {
+            background: #0092dc !important;
+            color: black !important;
+        }
+
+        /* [cite: 2026-02-07] Black links, No underline */
+        a {
+            color: black !important;
+            text-decoration: none !important;
+            font-weight: bold;
+            border: 2px solid black;
+            padding: 10px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            transition: 0.3s ease;
+        }
+        
+        a:hover {
+            background: black;
+            color: white !important;
+            transform: scale(1.1);
+        }
+
+        .status-success { color: #28a745 !important; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Thank You!</h1>
-        <p>Your survey has been successfully submitted.</p>
-        <p><a href="http://opinioninsights.in/">Return to Home</a></p>
-    </div>
+
+    <section class="page-title-area">
+        <div class="container text-center">
+            
+            <div class="brand-name-bada" id="brand">Opinion Insights</div>
+            
+            <div class="completion-box" id="mainBox">
+                <span class="woohoo-text">🎉 WOO-HOO! 🎉</span>
+                <h1 class="completion-title">completed</h1>
+                <p class="lead">Great job! Your response for <b>{{pid}}</b> is safe.</p>
+                <p>You may now close this window.</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="table-responsive" id="dataTable">
+                        <table class="table table-bordered text-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th>UID</th>
+                                    <th>PID [cite: 2026-02-10]</th>
+                                    <th>STATUS</th>
+                                    <th>IP ADDRESS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{uid}}</td>
+                                    <td>{{pid}}</td>
+                                    <td class="status-success">Success</td>
+                                    <td>{{ip}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <a href="http://opinioninsights.in/" id="btn">Return to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Confetti Burst on Load (The "Woohoo" Effect)
+        window.onload = function() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#0092dc', '#000000', '#ffffff']
+            });
+        };
+
+        // GSAP Timeline for Hardcore Entrance
+        let tl = gsap.timeline();
+
+        tl.to("#brand", { opacity: 1, duration: 1, y: -20, ease: "power4.out" })
+          .to("#mainBox", { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)" }, "-=0.5")
+          .to("#dataTable", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.3")
+          .from("#btn", { opacity: 0, scale: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+
+        // Floating animation for the box
+        gsap.to("#mainBox", {
+            y: 10,
+            repeat: -1,
+            yoyo: true,
+            duration: 2,
+            ease: "sine.inOut"
+        });
+    </script>
 </body>
 </html>
