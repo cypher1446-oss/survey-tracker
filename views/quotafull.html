@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quota Full | Opinion Insights</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body { background-image: url('https://dashboard.mackinsights.com/public/background.png'); background-size: cover; height: 100vh; font-family: "Quicksand", sans-serif; text-align: center; }
+        .brand { font-family: "Comfortaa", sans-serif; font-size: 60px; font-weight: bold; margin-top: 50px; }
+        .title { font-family: "Comfortaa", sans-serif; font-size: 50px; font-weight: bold; color: #8e44ad; text-transform: uppercase; }
+        .table-res { margin-top: 40px; background: white; border-radius: 12px; overflow: hidden; }
+        thead { background: #0092dc; color: black; }
+        td { color: black !important; font-weight: bold; }
+        a { color: black !important; text-decoration: none !important; font-weight: bold; border: 2px solid black; padding: 10px 30px; border-radius: 50px; display: inline-block; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="brand">Opinion Insights</div>
+        <h1 class="title">QUOTA FULL</h1>
+        <p>This study has already received enough responses.</p>
+        <div class="table-res mx-auto col-md-10">
+            <table class="table table-bordered mb-0">
+                <thead><tr><th>UID</th><th>PID</th><th>STATUS</th><th>IP</th></tr></thead>
+                <tbody><tr><td>{{uid}}</td><td>{{pid}}</td><td style="color: #8e44ad;">Quota Full</td><td>{{ip}}</td></tr></tbody>
+            </table>
+        </div>
+        <a href="http://opinioninsights.in/">CLOSE</a>
+    </div>
+</body>
+</html>
