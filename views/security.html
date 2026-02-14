@@ -2,31 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Security Alert | Opinion Insights</title>
+    <title>Quota Full | Opinion Insights</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-        body { background-image: url('https://dashboard.mackinsights.com/public/background.png'); background-size: cover; height: 100vh; font-family: "Quicksand", sans-serif; text-align: center; }
-        .brand { font-family: "Comfortaa", sans-serif; font-size: 60px; font-weight: bold; margin-top: 50px; }
-        .title { font-family: "Comfortaa", sans-serif; font-size: 50px; font-weight: bold; color: red; text-transform: uppercase; text-shadow: 0 0 10px rgba(255,0,0,0.3); }
-        .table-res { margin-top: 40px; background: white; border-radius: 12px; overflow: hidden; border: 2px solid red; }
-        thead { background: #0092dc; color: black; }
-        td { color: black !important; font-weight: bold; }
-        a { color: black !important; text-decoration: none !important; font-weight: bold; border: 2px solid red; padding: 10px 30px; border-radius: 50px; display: inline-block; margin-top: 30px; }
+        body, html { background-image: url('https://dashboard.mackinsights.com/public/background.png'); background-size: cover; height: 100vh; font-family: "Quicksand", sans-serif; text-align: center; }
+        .brand-name-bada { font-family: "Comfortaa", sans-serif; font-size: 65px; font-weight: bold; margin-top: 50px; opacity: 0; }
+        .status-title { font-family: "Comfortaa", sans-serif; font-size: 50px; font-weight: bold; color: #8e44ad; }
+        .table-responsive { margin-top: 40px; background: white; border-radius: 12px; overflow: hidden; opacity: 0; }
+        .table thead tr { background: #0092dc !important; }
+        a { color: black !important; text-decoration: none !important; font-weight: bold; border: 2px solid black; padding: 10px 30px; border-radius: 50px; display: inline-block; transition: 0.3s; }
+        a:hover { background: black; color: white !important; }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="brand">Opinion Insights</div>
-        <h1 class="title">SECURITY ALERT</h1>
-        <p style="color: red; font-weight: bold;">High-risk connection detected. VPN/Proxy is strictly prohibited.</p>
-        <div class="table-res mx-auto col-md-10">
+        <div class="brand-name-bada" id="brand">Opinion Insights</div>
+        <div id="mainBox" style="opacity:0;">
+            <h1 class="status-title">QUOTA FULL</h1>
+            <p>Sorry, we have already gathered enough responses for this project.</p>
+        </div>
+        <div class="table-responsive col-md-10 mx-auto" id="dataTable">
             <table class="table table-bordered mb-0">
                 <thead><tr><th>UID</th><th>PID</th><th>STATUS</th><th>IP</th></tr></thead>
-                <tbody><tr><td>{{uid}}</td><td>{{pid}}</td><td style="color: red;">Security-Tr</td><td>{{ip}}</td></tr></tbody>
+                <tbody><tr><td>{{uid}}</td><td>{{pid}}</td><td style="color:#8e44ad; font-weight:bold;">Quota Full</td><td>{{ip}}</td></tr></tbody>
             </table>
         </div>
-        <a href="http://opinioninsights.in/">EXIT</a>
+        <div class="mt-5"><a href="http://opinioninsights.in/" id="btn">Return Home</a></div>
     </div>
+    <script>
+        let tl = gsap.timeline();
+        tl.to("#brand", { opacity: 1, duration: 1, y: -20 })
+          .to("#mainBox", { opacity: 1, duration: 0.8 }, "-=0.5")
+          .to("#dataTable", { opacity: 1, duration: 1 }, "-=0.3")
+          .from("#btn", { opacity: 0, scale: 0, duration: 0.5 });
+    </script>
 </body>
 </html>
