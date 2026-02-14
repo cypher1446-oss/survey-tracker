@@ -6,38 +6,34 @@ require('dotenv').config();
 const app = express();
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
+// Static files
 app.use(express.static('public'));
 
-// 1. Start Redirect Route
+// 1. Survey Start Redirect
 app.get('/start', async (req, res) => {
-    const { vcode, uid } = req.query; 
+    const { pid, uid } = req.query; // pid example: VRR8042
     try {
-        const result = await pool.query('SELECT base_url, status, project_code FROM projects WHERE project_code = $1', [vcode]);
+        const result = await pool.query('SELECT base_url, status FROM projects WHERE project_code = $1', [pid]);
         if (result.rows.length > 0 && result.rows[0].status === 'active') {
             await pool.query('INSERT INTO responses (project_id, uid, status, ip) VALUES ($1, $2, $3, $4)', 
-            [result.rows[0].project_code, uid, 'click', req.ip]);
-            
-            let finalUrl = result.rows[0].base_url + uid;
-            res.redirect(finalUrl);
+            [pid, uid, 'click', req.ip]);
+            res.redirect(`${result.rows[0].base_url}${uid}`);
         } else {
             res.send("<h1>Survey is currently paused or unavailable.</h1>");
         }
-    } catch (err) { res.status(500).send("Error"); }
+    } catch (err) { res.status(500).send("System Error"); }
 });
 
-// 2. Status Redirects (Complete, Terminate, Quota, Security)
-app.get('/redirect/:status', (req, res) => {
+// 2. Status Redirects (As requested by you)
+app.get('/redirect/:status', async (req, res) => {
     const { status } = req.params;
     const { pid, uid } = req.query;
-    // Log status in background and show page
-    pool.query('UPDATE responses SET status = $1 WHERE project_id = $2 AND uid = $3', [status, pid, uid]);
-    res.sendFile(path.join(__dirname, 'views', `${status}.html`));
+    try {
+        await pool.query('UPDATE responses SET status = $1 WHERE project_id = $2 AND uid = $3', [status, pid, uid]);
+        res.sendFile(path.join(__dirname, 'views', `${status}.html`));
+    } catch (err) { res.sendFile(path.join(__dirname, 'views', `${status}.html`)); }
 });
 
-// 3. Admin Route
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(3000, () => console.log('Server Live on opinioninsights.in'));
